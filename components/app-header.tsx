@@ -17,17 +17,20 @@ export function AppHeader() {
       />
       {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
       <View style={styles.searchContainer}>
-        <Image
-          source={require('@/assets/images/MagnifyingGlass.svg')}
-          style={styles.searchIcon}
-          contentFit="contain"
-        />
         {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search News"
-          placeholderTextColor="#1D1B1B80"
-        />
+        <View style={styles.searchContent}>
+          <Image
+            source={require('@/assets/images/MagnifyingGlass.svg')}
+            style={styles.searchIcon}
+            contentFit="contain"
+          />
+          {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search News"
+            placeholderTextColor="#1D1B1B80"
+          />
+        </View>
       </View>
       <Link href="/liked" asChild>
         <TouchableOpacity style={styles.likeButtonContainer}>
@@ -59,29 +62,30 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     width: 229,
-    flexDirection: 'row',
     backgroundColor: '#F8F8F8',
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
     borderRadius: 20,
-    paddingLeft: 12,
-    paddingRight: 12,
     borderWidth: 1,
     borderColor: '#3E59460D',
+  },
+  searchContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   searchIcon: {
     width: 16,
     height: 16,
-    marginRight: 0,
+    marginRight: 4,
   },
   searchInput: {
     fontSize: 12,
     textAlign: 'center',
     color: '#1D1B1B80',
-    paddingLeft: 2,
-    marginLeft: 0,
-    flex: 1,
+    padding: 0,
+    margin: 0,
   },
   likeButtonContainer: {
     width: 30,
