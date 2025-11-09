@@ -128,7 +128,7 @@ export function PostsList({ category }: PostsListProps) {
       <FlatList<Post>
         data={posts}
         renderItem={({ item }: { item: Post }) => (
-          <Link href={`/post-detail?postUrl=${encodeURIComponent(item.link)}`} asChild>
+          <Link href={`/post-detail?postId=${item.id}`} asChild>
             <PostCard post={item} />
           </Link>
         )}

@@ -13,7 +13,10 @@ export default function HomeScreen() {
     <ThemedView style={styles.container}>
       <AppHeader />
       <ThemedView noPadding style={styles.tabsContainer}>
-        <CategoryTabs onCategoryChange={setSelectedCategory} />
+        <CategoryTabs 
+          onCategoryChange={setSelectedCategory}
+          initialCategory="Top News"
+        />
       </ThemedView>
       <ThemedView style={styles.content}>
         <PostsList category={selectedCategory} />

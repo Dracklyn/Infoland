@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -81,7 +81,20 @@ export function PostCard({ post, onPress }: PostCardProps) {
         <Text style={[styles.title, { color: '#1D1B1BE5' }]} numberOfLines={3}>
           {stripHtml(post.title.rendered)}
         </Text>
-        <Text style={[styles.excerpt, { color: '#1D1B1BE5' }]} numberOfLines={3}>
+        <Text 
+          style={[
+            styles.excerpt, 
+            { 
+              color: '#1D1B1BE5',
+              fontFamily: Platform.select({
+                web: 'Karla, sans-serif',
+                ios: 'Karla-Regular',
+                android: 'Karla-Regular',
+                default: 'Karla-Regular',
+              }),
+            }
+          ]} 
+          numberOfLines={3}>
           {cleanExcerpt}
         </Text>
 

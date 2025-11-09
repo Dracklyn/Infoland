@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Colors } from '@/constants/theme';
@@ -10,12 +10,20 @@ export type Category = typeof CATEGORIES[number];
 
 interface CategoryTabsProps {
   onCategoryChange?: (category: Category) => void;
+  initialCategory?: Category;
 }
 
-export function CategoryTabs({ onCategoryChange }: CategoryTabsProps) {
+export function CategoryTabs({ onCategoryChange, initialCategory }: CategoryTabsProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
-  const [activeCategory, setActiveCategory] = useState<Category>('Top News');
+  const [activeCategory, setActiveCategory] = useState<Category>(initialCategory || 'Top News');
+
+  // Sync with initialCategory prop changes
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   const handleCategoryPress = (category: Category) => {
     setActiveCategory(category);
@@ -42,6 +50,8 @@ export function CategoryTabs({ onCategoryChange }: CategoryTabsProps) {
                 {
                   fontFamily: Platform.select({
                     web: 'Merriweather, serif',
+                    ios: 'Merriweather-Bold',
+                    android: 'Merriweather-Bold',
                     default: 'Merriweather-Bold',
                   }),
                   color: isActive ? colors.tint : colors.textSecondary,

@@ -49,6 +49,17 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Merriweather-Regular.ttf",
+            "./assets/fonts/Merriweather-Bold.ttf",
+            "./assets/fonts/Karla-Regular.ttf",
+            "./assets/fonts/Karla-Bold.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {
