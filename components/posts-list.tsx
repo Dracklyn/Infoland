@@ -1,13 +1,12 @@
 // @ts-expect-error - React 19 type compatibility issue with expo-router Link export
 import { Link } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { Category } from '@/components/category-tabs';
 import { Post, PostCard } from '@/components/post-card';
+import { PostCardSkeletonList } from '@/components/post-card-skeleton';
 import { ThemedView } from '@/components/themed-view';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 const API_URL = 'https://infoland.ng/wp-json/wp/v2/posts';
 
@@ -25,8 +24,6 @@ interface PostsListProps {
 }
 
 export function PostsList({ category }: PostsListProps) {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -107,17 +104,23 @@ export function PostsList({ category }: PostsListProps) {
 
   if (loading) {
     return (
-      <ThemedView style={styles.centerContainer}>
-        {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
-        <ActivityIndicator size="large" color={colors.tint} />
+      <ThemedView style={styles.container}>
+        {/* @ts-ignore - React 19 type compatibility issue with React Native FlatList contentContainerStyle */}
+        <FlatList
+          data={[]}
+          renderItem={() => null}
+          {...({ contentContainerStyle: styles.listContent } as any)}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<PostCardSkeletonList count={5} />}
+        />
       </ThemedView>
     );
   }
 
   if (error && posts.length === 0) {
     return (
-      <ThemedView style={styles.centerContainer}>
-        {/* Error state - showing dummy data as fallback */}
+      <ThemedView style={styles.container}>
+        {/* Error state */}
       </ThemedView>
     );
   }
@@ -140,8 +143,7 @@ export function PostsList({ category }: PostsListProps) {
         ListFooterComponent={
           loadingMore ? (
             <ThemedView style={styles.footerContainer}>
-              {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
-              <ActivityIndicator size="small" color={colors.tint} />
+              <PostCardSkeletonList count={2} />
             </ThemedView>
           ) : null
         }
@@ -151,17 +153,13 @@ export function PostsList({ category }: PostsListProps) {
 }
 
 const styles = StyleSheet.create({
-  centerContainer: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
   },
   listContent: {
     paddingBottom: 20,
   },
   footerContainer: {
-    paddingVertical: 20,
-    alignItems: 'center',
+    paddingTop: 10,
   },
 });

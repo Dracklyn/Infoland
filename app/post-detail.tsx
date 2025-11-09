@@ -1,12 +1,14 @@
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { Post, PostCard } from '@/components/post-card';
+import { PostDetailSkeleton } from '@/components/post-detail-skeleton';
+import { PostCardSkeletonList } from '@/components/post-card-skeleton';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
@@ -162,10 +164,12 @@ export default function PostDetailScreen() {
   if (loading) {
     return (
       <ThemedView style={styles.container}>
-        <ThemedView style={styles.centerContainer}>
-          {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
-          <ActivityIndicator size="large" color={colors.tint} />
-        </ThemedView>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top }]}
+          showsVerticalScrollIndicator={false}>
+          <PostDetailSkeleton />
+        </ScrollView>
       </ThemedView>
     );
   }
@@ -297,10 +301,7 @@ export default function PostDetailScreen() {
               Related Posts
             </Text>
             {loadingRelated ? (
-              <ThemedView style={styles.relatedLoading}>
-                {/* @ts-expect-error - React 19 type compatibility issue with React Native */}
-                <ActivityIndicator size="small" color={colors.tint} />
-              </ThemedView>
+              <PostCardSkeletonList count={2} />
             ) : (
               relatedPosts.map((relatedPost) => (
                 <PostCard
@@ -322,12 +323,6 @@ export default function PostDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  centerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
   },
   errorText: {
     fontSize: 16,
@@ -439,9 +434,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 16,
-  },
-  relatedLoading: {
-    padding: 20,
-    alignItems: 'center',
   },
 });
