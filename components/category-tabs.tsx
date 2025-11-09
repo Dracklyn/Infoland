@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-const CATEGORIES = ['Top News', 'Politics', 'Music', 'Sport', 'Comedy'] as const;
+const CATEGORIES = ['Top News', 'Politics', 'Sports', 'Music', 'Comedy'] as const;
 
 export type Category = typeof CATEGORIES[number];
 
